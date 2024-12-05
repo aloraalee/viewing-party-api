@@ -5,6 +5,7 @@ class Api::V1::MoviesController < ApplicationController
       url: 'https://api.themoviedb.org/3',
       params: {api_key: Rails.application.credentials.tmdb[:key]}
     )
+    
     response = conn.get("movie/top_rated") 
     movies = JSON.parse(response.body)["results"].first(20)
     render json: MovieSerializer.format_movie_info(movies)
