@@ -79,5 +79,6 @@ Shoulda::Matchers.configure do |config|
     end
     config.filter_sensitive_data('<TMDB_API_KEY>') { Rails.application.credentials.tmdb[:key] }
     config.configure_rspec_metadata!
+    config.allow_http_connections_when_no_cassette = true
   end
 end

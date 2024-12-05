@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Movies API", type: :request do
   describe "Get Top Rated Movie Endpoint" do
-    context "when request is valid" do
+    context "request is valid" do
       it "returns 201 OK and provides expected fields" do
         json_response = File.read("spec/fixtures/top_rated_movies.json")
         stub_request(:get, "https://api.themoviedb.org/3/movie/top_rated?api_key=3c80aae3b943fcf5c5811e84b5258a1f").
@@ -22,7 +22,7 @@ RSpec.describe "Movies API", type: :request do
   end
 
   describe "Get Movie Search Endpoint" do
-    context "when request is valid" do
+    context "request is valid" do
       it "returns 201 OK and provides expected fields" do
         VCR.use_cassette("movie_search") do
 
