@@ -34,7 +34,7 @@ RSpec.describe "Movies API", type: :request do
 
     context "when request is valid" do
       it "returns 201 OK and provides expected fields" do
-        get "/api/v1/search/movies", params: { query: "Lord of the Rings" }
+        get "/api/v1/search/movie", params: { query: "Lord of the Rings" }
 
         expect(response).to have_http_status(:ok)
         json = JSON.parse(response.body, symbolize_names: true)
