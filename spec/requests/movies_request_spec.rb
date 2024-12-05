@@ -22,24 +22,20 @@ RSpec.describe "Movies API", type: :request do
   end
 
   describe "Get Movie Search Endpoint" do
-    let(:movie_params) do
-      {
-        title: "The Lord of the Rings: The Fellowship of the Ring",
-        vote_average: 8.415
-      }
-    end
-
     context "when request is valid" do
       it "returns 201 OK and provides expected fields" do
-        get "/api/v1/search/movie", params: { query: "Lord of the Rings" }
+        VCR.use_cassette("movie_search") do
 
-        expect(response).to have_http_status(:ok)
-        json = JSON.parse(response.body, symbolize_names: true)
-        expect(json[:data]).to be_an(Array)
-        expect(json[:data].first[:type]).to eq("movie")
-        expect(json[:data].first[:id]).to be_present
-        expect(json[:data].first[:attributes][:title]).to eq(movie_params[:title])
-        expect(json[:data].first[:attributes][:vote_average]).to eq(movie_params[:vote_average])        
+          get "/api/v1/search/movie", params: { query: "Lord of the Rings" }
+
+          expect(response).to have_http_status(:ok)
+          json = JSON.parse(response.body, symbolize_names: true)
+          expect(json[:data]).to be_an(Array)
+          expect(json[:data].first[:type]).to eq("movie")
+          expect(json[:data].first[:id]).to be_present
+          expect(json[:data].first[:attributes][:title]).to eq("The Lord of the Rings: The Fellowship of the Ring")
+          expect(json[:data].first[:attributes][:vote_average]).to eq(8.415)   
+        end     
       end
     end
   end
