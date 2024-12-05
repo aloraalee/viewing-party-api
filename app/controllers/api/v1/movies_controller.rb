@@ -10,11 +10,20 @@ class Api::V1::MoviesController < ApplicationController
     render json: MovieSerializer.format_movie_info(movies)
   end
 
-  # def search
-  #   # movie = params[:movie]
+  def search
+    conn = Faraday.new(
+      url: 'https://api.themoviedb.org/3',
+      params: {api_key: Rails.application.credentials.tmdb[:key]}
+    )
 
-  #   render json: MovieSerializer.format_movie_info(Movie.all)
-  # end
+    search_term = params[:query]
+    response = conn.get("search/movie") do |req| 
+      req.params["query"] = search_term
+
+    end
+    movies = JSON.parse(response.body)["results"].first(20)
+    render json: MovieSerializer.format_movie_info(movies)
+  end
 
   # def movie_params
   #   params.permit(:title, :vote_average)
