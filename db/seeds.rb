@@ -10,3 +10,6 @@
 User.create!(name: "Danny DeVito", username: "danny_de_v", password: "jerseyMikesRox7")
 User.create!(name: "Dolly Parton", username: "dollyP", password: "Jolene123")
 User.create!(name: "Lionel Messi", username: "futbol_geek", password: "test123")
+
+ViewingParty.create!(name: "Juliet's Bday Movie Bash", start_time:"2025-02-01 10:00:00", end_time: "2025-02-01 14:30:00", movie_id: 278, movie_title: "The Sh
+awshank Redemption")
