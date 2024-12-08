@@ -34,7 +34,23 @@ RSpec.describe "Viewing Parties", type: :request do
         expect(json[:data][:attributes]).to have_key(:movie_id)
         expect(json[:data][:attributes]).to have_key(:movie_title)
         expect(json[:data][:attributes]).to have_key(:invitees)
-        expect(json[:data][:attributes][:invitees]).to eq([11, 7, 5])
+        expect(json[:data][:attributes][:invitees]).to eq([
+          {
+            "id": 11,
+            "name": "Brian",
+            "username": "its_brian"
+          },
+                  {
+            "id": 7,
+            "name": "Ellen",
+            "username": "its_ellen"
+          },
+                  {
+            "id": 5,
+            "name": "Zach",
+            "username": "its_zach"
+          }
+        ])
 
       end
     end
