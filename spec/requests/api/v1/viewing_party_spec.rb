@@ -51,7 +51,6 @@ RSpec.describe "Viewing Parties", type: :request do
             "username": "its_zach"
           }
         ])
-
       end
     end
 
@@ -120,6 +119,52 @@ RSpec.describe "Viewing Parties", type: :request do
         expect(response).to have_http_status(:bad_request)
         expect(json[:message]).to eq("Error with the given start or end time")
         expect(json[:status]).to eq(400)
+      end
+    end
+
+    let(:viewing_party_params_invalid_user) do
+      {
+        name: "Juliet's Bday Movie Bash!",
+        start_time: "2025-02-01 10:00:00",
+        end_time: "2025-02-01 14:30:00",
+        movie_id: 278,
+        movie_title: "The Shawshank Redemption",
+        invitees: [11, 7, 5, 18]
+      }
+    end
+
+    context "request is valid" do
+      it "returns 201 Created, but the invalid user is excluded" do
+        post api_v1_viewing_parties_path, params: viewing_party_params_invalid_user, as: :json
+      
+        expect(response).to have_http_status(:created)
+        json = JSON.parse(response.body, symbolize_names: true)
+        expect(json[:data][:attributes]).to be_a(Hash)
+        expect(json[:data][:type]).to eq("viewing_party")
+        expect(json[:data][:attributes]).to be_a(Hash)
+        expect(json[:data][:attributes]).to have_key(:name)
+        expect(json[:data][:attributes]).to have_key(:start_time)
+        expect(json[:data][:attributes]).to have_key(:end_time)
+        expect(json[:data][:attributes]).to have_key(:movie_id)
+        expect(json[:data][:attributes]).to have_key(:movie_title)
+        expect(json[:data][:attributes]).to have_key(:invitees)
+        expect(json[:data][:attributes][:invitees]).to eq([
+          {
+            "id": 11,
+            "name": "Brian",
+            "username": "its_brian"
+          },
+                  {
+            "id": 7,
+            "name": "Ellen",
+            "username": "its_ellen"
+          },
+                  {
+            "id": 5,
+            "name": "Zach",
+            "username": "its_zach"
+          }
+        ])
       end
     end
   end

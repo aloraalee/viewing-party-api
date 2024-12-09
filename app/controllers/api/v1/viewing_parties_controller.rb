@@ -9,14 +9,12 @@ class Api::V1::ViewingPartiesController < ApplicationController
     end
 
     if viewing_party.save
-      if viewing_party_params[:invitees].present?
-        viewing_party_params[:invitees].each do |invitee_id|
+      viewing_party_params[:invitees].each do |invitee_id|
+        if User.exists?(id: invitee_id)
           Attendee.create!(viewing_party_id: viewing_party.id, user_id: invitee_id)
         end
-        render json: ViewingPartySerializer.new(viewing_party), status: :created
-      else
-        render json: ErrorSerializer.format_error(ErrorMessage.new(viewing_party.errors.full_messages.to_sentence, 400)), status: :bad_request
       end
+      render json: ViewingPartySerializer.new(viewing_party), status: :created
     else
       render json: ErrorSerializer.format_error(ErrorMessage.new(viewing_party.errors.full_messages.to_sentence, 400)), status: :bad_request
     end
