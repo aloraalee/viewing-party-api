@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get 'search/movie', to: 'movies#search'
       resources :movies, only: [:create, :index, :show]
       resources :viewing_parties, only: [:create]
+      resources: attendees, only: [:create]
     end
   end
 end
