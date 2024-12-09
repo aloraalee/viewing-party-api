@@ -71,13 +71,31 @@ RSpec.describe "Attendeess", type: :request do
       end
     end
 
+    # let(:iadditional_user_params) do
+    #   {
+    #     invitees_user_id: 14
+    #   }
+    # end
+
+    context "request is invalid" do
+      it "returns 400 Error " do
+        post api_v1_viewing_party_attendees_path(viewing_party_id: 999), params: additional_user_params, as: :json
+        
+        json = JSON.parse(response.body, symbolize_names: true)
+  
+        expect(response).to have_http_status(:bad_request)
+        expect(json[:message]).to eq("Viewing party does not exist")
+        expect(json[:status]).to eq(400)
+      end
+    end
+
     let(:invalid_additional_user_params) do
       {
         invitees_user_id: 10
       }
     end
 
-    context "request is valid" do
+    context "request is invalid because user can't be found" do
       it "returns 400 Error " do
         post api_v1_viewing_party_attendees_path(viewing_party_id: @viewing_party.id), params: invalid_additional_user_params, as: :json
         
@@ -88,6 +106,5 @@ RSpec.describe "Attendeess", type: :request do
         expect(json[:status]).to eq(400)
       end
     end
-
   end
 end
