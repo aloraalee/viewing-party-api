@@ -13,8 +13,9 @@ Rails.application.routes.draw do
       resources :sessions, only: :create
       get 'search/movie', to: 'movies#search'
       resources :movies, only: [:create, :index, :show]
-      resources :viewing_parties, only: [:create]
-      resources: attendees, only: [:create]
+      resources :viewing_parties do
+        resources :attendees, only: [:create]
+      end
     end
   end
 end
