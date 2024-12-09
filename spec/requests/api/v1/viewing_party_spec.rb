@@ -23,6 +23,9 @@ RSpec.describe "Viewing Parties", type: :request do
       it "returns 201 Created and provides expected fields" do
         post api_v1_viewing_parties_path, params: viewing_party_params, as: :json
       
+        viewing_party = ViewingParty.last
+        host_attendee = viewing_party.attendees.find_by(is_host: true)
+        
         expect(response).to have_http_status(:created)
         json = JSON.parse(response.body, symbolize_names: true)
         expect(json[:data][:attributes]).to be_a(Hash)
@@ -51,6 +54,9 @@ RSpec.describe "Viewing Parties", type: :request do
             "username": "its_zach"
           }
         ])
+        expect(host_attendee).to be_present
+        expect(host_attendee.user_id).to eq(11)
+    
       end
     end
 

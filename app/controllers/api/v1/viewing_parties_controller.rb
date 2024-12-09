@@ -9,9 +9,13 @@ class Api::V1::ViewingPartiesController < ApplicationController
     end
 
     if viewing_party.save
-      viewing_party_params[:invitees].each do |invitee_id|
+      host_id = viewing_party_params[:invitees].first
+      if User.exists?(id: host_id)
+        Attendee.create!(viewing_party_id: viewing_party.id, user_id: host_id, is_host: true)
+      end
+      viewing_party_params[:invitees][1..-1].each do |invitee_id|
         if User.exists?(id: invitee_id)
-          Attendee.create!(viewing_party_id: viewing_party.id, user_id: invitee_id)
+          Attendee.create!(viewing_party_id: viewing_party.id, user_id: invitee_id, is_host: false)
         end
       end
       render json: ViewingPartySerializer.new(viewing_party), status: :created
