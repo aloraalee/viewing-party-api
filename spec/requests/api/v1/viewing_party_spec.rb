@@ -72,7 +72,7 @@ RSpec.describe "Viewing Parties", type: :request do
         json = JSON.parse(response.body, symbolize_names: true)
 
         expect(response).to have_http_status(:bad_request)
-        expect(json[:message]).to eq("Attribute movie_id cannot be blank")
+        expect(json[:message]).to eq("Movie can't be blank")
         expect(json[:status]).to eq(400)
       end
     end
