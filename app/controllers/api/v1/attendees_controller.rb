@@ -9,7 +9,7 @@ class Api::V1::AttendeesController < ApplicationController
 
       render json: ViewingPartySerializer.new(viewing_party), status: :created
     else
-      render json: { error: "User not found" }, status: :not_found
+      render json: ErrorSerializer.format_error(ErrorMessage.new("User not found", 400)), status: :bad_request
     end
   end
 end
