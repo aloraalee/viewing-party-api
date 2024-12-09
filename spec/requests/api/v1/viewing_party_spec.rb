@@ -76,5 +76,51 @@ RSpec.describe "Viewing Parties", type: :request do
         expect(json[:status]).to eq(400)
       end
     end
+
+    let(:viewing_party_params_insufficient_time) do
+      {
+        name: "Juliet's Bday Movie Bash!",
+        start_time: "2025-02-01 10:00:00",
+        end_time: "2025-02-01 11:30:00",
+        movie_id: 278,
+        movie_title: "The Shawshank Redemption",
+        invitees: [11, 7, 5]
+      }
+    end
+
+    context "request is not possible because of time constraint" do
+      it "returns 400 Error " do
+
+        post api_v1_viewing_parties_path, params: viewing_party_params_insufficient_time, as: :json
+        json = JSON.parse(response.body, symbolize_names: true)
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json[:message]).to eq("Error with the given start or end time")
+        expect(json[:status]).to eq(400)
+      end
+    end
+
+    let(:viewing_party_params_time_order_incorrect) do
+      {
+        name: "Juliet's Bday Movie Bash!",
+        start_time: "2025-02-01 14:30:00",
+        end_time: "2025-02-01 10:00:00",
+        movie_id: 278,
+        movie_title: "The Shawshank Redemption",
+        invitees: [11, 7, 5]
+      }
+    end
+
+    context "request is not possible because end time is before start time" do
+      it "returns 400 Error " do
+
+        post api_v1_viewing_parties_path, params: viewing_party_params_time_order_incorrect, as: :json
+        json = JSON.parse(response.body, symbolize_names: true)
+
+        expect(response).to have_http_status(:bad_request)
+        expect(json[:message]).to eq("Error with the given start or end time")
+        expect(json[:status]).to eq(400)
+      end
+    end
   end
 end
