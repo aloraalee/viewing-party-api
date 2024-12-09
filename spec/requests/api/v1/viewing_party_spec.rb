@@ -25,6 +25,7 @@ RSpec.describe "Viewing Parties", type: :request do
       
         viewing_party = ViewingParty.last
         host_attendee = viewing_party.attendees.find_by(is_host: true)
+        guest_attendees = viewing_party.attendees.where(is_host: false)
         
         expect(response).to have_http_status(:created)
         json = JSON.parse(response.body, symbolize_names: true)
@@ -56,7 +57,8 @@ RSpec.describe "Viewing Parties", type: :request do
         ])
         expect(host_attendee).to be_present
         expect(host_attendee.user_id).to eq(11)
-    
+        expect(guest_attendees).to be_present
+        expect(guest_attendees.count).to eq(2)
       end
     end
 
