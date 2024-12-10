@@ -39,4 +39,25 @@ RSpec.describe "Movies API", type: :request do
       end
     end
   end
+
+    describe "Get Movie Details Endpoint" do
+    context "request is valid" do
+      xit "returns 201 OK and provides expected fields" do
+        VCR.use_cassette("movie_details") do
+
+          movie_id = 278
+
+          get "/api/v1/movies/#{movie_id}/detail"
+
+          expect(response).to have_http_status(:ok)
+          json = JSON.parse(response.body, symbolize_names: true)
+          # expect(json[:data]).to be_an(Array)
+          # expect(json[:data].first[:type]).to eq("movie")
+          # expect(json[:data].first[:id]).to be_present
+          # expect(json[:data].first[:attributes][:title]).to eq("The Shawshank Redemption")
+          # expect(json[:data].first[:attributes][:vote_average]).to eq(8.706)   
+        end     
+      end
+    end
+  end
 end
