@@ -40,7 +40,7 @@ RSpec.describe "Movies API", type: :request do
     end
   end
 
-    describe "Get Movie Details Endpoint" do
+  describe "Get Movie Details Endpoint" do
     context "request is valid" do
       xit "returns 201 OK and provides expected fields" do
         VCR.use_cassette("movie_details") do
