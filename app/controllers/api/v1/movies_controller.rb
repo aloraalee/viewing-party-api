@@ -1,13 +1,14 @@
 class Api::V1::MoviesController < ApplicationController
 
   def index
-    if movie_id = params[:id]
-      movie_details = MovieGateway.get_movie_details(movie_id)
-      render json: MovieSerializer.format_movie_details(movie_details)
-    else
-      top_rated_movies = MovieGateway.get_top_rated
-      render json: MovieSerializer.format_movie_info(top_rated_movies)
-    end
+    top_rated_movies = MovieGateway.get_top_rated
+    render json: MovieSerializer.format_movie_info(top_rated_movies)
+  end
+
+  def show
+    movie_id = params[:id]
+    movie_details = MovieGateway.get_movie_details(movie_id)
+    render json: MovieSerializer.format_movie_details(movie_details)
   end
 
   def search
