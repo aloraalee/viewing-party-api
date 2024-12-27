@@ -47,7 +47,7 @@ RSpec.describe "Movies API", type: :request do
 
           movie_id = 278
 
-          get "/api/v1/movies/#{movie_id}/detail"
+          get "/api/v1/movies/#{movie_id}"
 
           expect(response).to have_http_status(:ok)
           json = JSON.parse(response.body, symbolize_names: true)
