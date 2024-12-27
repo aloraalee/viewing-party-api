@@ -52,11 +52,16 @@ RSpec.describe "Movies API", type: :request do
           expect(response).to have_http_status(:ok)
           json = JSON.parse(response.body, symbolize_names: true)
 
-          # expect(json[:data]).to be_an(Array)
-          # expect(json[:data].first[:type]).to eq("movie")
-          # expect(json[:data].first[:id]).to be_present
-          # expect(json[:data].first[:attributes][:title]).to eq("The Shawshank Redemption")
-          # expect(json[:data].first[:attributes][:vote_average]).to eq(8.706)   
+          expect(json[:data]).to be_a(Hash)
+          expect(json[:data][:type]).to eq("movie")
+          expect(json[:data][:id]).to be_present
+          expect(json[:data][:attributes][:title]).to eq("The Shawshank Redemption")
+          expect(json[:data][:attributes][:vote_average]).to eq(8.708)   
+          # Runtime needs to be changed to "2 hours, 22 minutes"
+          expect(json[:data][:attributes][:runtime]).to eq(142)
+          expect(json[:data][:attributes][:genres]).to eq(["Drama", "Crime"])
+          expect(json[:data][:attributes][:summary]).to eq("Imprisoned in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison, where he puts his accounting skills to work for an amoral warden. During his long stretch in prison, Dufresne comes to be admired by the other inmates -- including an older prisoner named Red -- for his integrity and unquenchable sense of hope.")
+          
         end     
       end
     end

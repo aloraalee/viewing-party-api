@@ -16,18 +16,21 @@ class MovieSerializer
     }
   end
 
-  def self.format_movie_details(movies)
+  def self.format_movie_details(movie)
+    # binding.pry
     { data:
-    movies.map do |movie|
       {
-        id: movie["id"],
+        id: movie["id"].to_s,
         type: "movie",
         attributes: {
           title: movie["title"],
           release_year: movie["release_date"],
           vote_average: movie["vote_average"],
           runtime: movie["runtime"],
-          genres: movie["gendres"]["name"]
+          genres: movie["genres"].map do |genre|
+            genre["name"]
+          end,
+          summary: movie["overview"]
       #     summary:
       #     cast: [
       #     {
@@ -44,8 +47,7 @@ class MovieSerializer
       #     ]
         }
       }
-    end
-}
+    }
   end
 
 end
