@@ -16,6 +16,10 @@ class MovieSerializer
     }
   end
 
+  def self.format_runtime_conversion(minutes)
+    '%d hours, %02d minutes' % minutes.divmod(60)
+  end
+
   def self.format_movie_details(movie)
     # binding.pry
     { data:
@@ -26,7 +30,7 @@ class MovieSerializer
           title: movie["title"],
           release_year: movie["release_date"],
           vote_average: movie["vote_average"],
-          runtime: movie["runtime"],
+          runtime: format_runtime_conversion(movie["runtime"]),
           genres: movie["genres"].map do |genre|
             genre["name"]
           end,
