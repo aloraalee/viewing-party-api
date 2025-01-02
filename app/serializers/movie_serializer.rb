@@ -21,7 +21,6 @@ class MovieSerializer
   end
 
   def self.format_movie_details(movie_details, movie_credits, movie_reviews)
-    # binding.pry
     { data:
       {
         id: movie_details["id"].to_s,
