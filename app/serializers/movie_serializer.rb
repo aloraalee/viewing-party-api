@@ -20,11 +20,7 @@ class MovieSerializer
     '%d hours, %02d minutes' % minutes.divmod(60)
   end
 
-  def self.format_cast_details(movie)
-
-  end
-
-  def self.format_movie_details(movie_details, movie_credits)
+  def self.format_movie_details(movie_details, movie_credits, movie_reviews)
     # binding.pry
     { data:
       {
@@ -45,13 +41,13 @@ class MovieSerializer
               actor: cast_member["name"]
             }
             end,
-          # total_reviews:
-          # reviews [
-          # {
-          #   author:
-          #   review:
-          # }
-          # ]
+          total_reviews: movie_reviews["results"].count,
+          reviews: movie_reviews["results"][0..4].map do |review|
+            {
+              author: review["author"],
+              review: review["content"]
+            }
+          end
         }
       }
     }

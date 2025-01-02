@@ -9,7 +9,8 @@ class Api::V1::MoviesController < ApplicationController
     movie_id = params[:id]
     movie_details = MovieGateway.get_movie_details(movie_id)
     movie_credits = MovieGateway.get_movie_credits(movie_id)
-    render json: MovieSerializer.format_movie_details(movie_details, movie_credits)
+    movie_reviews = MovieGateway.get_movie_reviews(movie_id)
+    render json: MovieSerializer.format_movie_details(movie_details, movie_credits, movie_reviews)
   end
 
   def search

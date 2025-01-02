@@ -21,6 +21,11 @@ class MovieGateway
     JSON.parse(response.body)
   end
 
+  def self.get_movie_reviews(movie_id)
+    response = conn.get("movie/#{movie_id}/reviews")
+    JSON.parse(response.body)
+  end
+
   private
 
   def self.conn
