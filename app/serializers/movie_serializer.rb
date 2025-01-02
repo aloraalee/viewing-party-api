@@ -20,35 +20,38 @@ class MovieSerializer
     '%d hours, %02d minutes' % minutes.divmod(60)
   end
 
-  def self.format_movie_details(movie)
+  def self.format_cast_details(movie)
+
+  end
+
+  def self.format_movie_details(movie_details, movie_credits)
     # binding.pry
     { data:
       {
-        id: movie["id"].to_s,
+        id: movie_details["id"].to_s,
         type: "movie",
         attributes: {
-          title: movie["title"],
-          release_year: movie["release_date"],
-          vote_average: movie["vote_average"],
-          runtime: format_runtime_conversion(movie["runtime"]),
-          genres: movie["genres"].map do |genre|
+          title: movie_details["title"],
+          release_year: movie_details["release_date"],
+          vote_average: movie_details["vote_average"],
+          runtime: format_runtime_conversion(movie_details["runtime"]),
+          genres: movie_details["genres"].map do |genre|
             genre["name"]
           end,
-          summary: movie["overview"]
-      #     summary:
-      #     cast: [
-      #     {
-      #       character:
-      #       actor:
-      #     }
-      #     ],
-      #     total_reviews:
-      #     reviews [
-      #     {
-      #       author:
-      #       review:
-      #     }
-      #     ]
+          summary: movie_details["overview"],
+          cast: movie_credits["cast"][0..9].map do |cast_member|
+            {
+              character: cast_member["character"],
+              actor: cast_member["name"]
+            }
+            end,
+          # total_reviews:
+          # reviews [
+          # {
+          #   author:
+          #   review:
+          # }
+          # ]
         }
       }
     }

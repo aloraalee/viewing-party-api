@@ -16,6 +16,11 @@ class MovieGateway
     JSON.parse(response.body)
   end
 
+  def self.get_movie_credits(movie_id)
+    response = conn.get("movie/#{movie_id}/credits")
+    JSON.parse(response.body)
+  end
+
   private
 
   def self.conn
