@@ -11,6 +11,21 @@ class MovieGateway
     JSON.parse(response.body)["results"].first(20)
   end
 
+  def self.get_movie_details(movie_id)
+    response = conn.get("movie/#{movie_id}") 
+    JSON.parse(response.body)
+  end
+
+  def self.get_movie_credits(movie_id)
+    response = conn.get("movie/#{movie_id}/credits")
+    JSON.parse(response.body)
+  end
+
+  def self.get_movie_reviews(movie_id)
+    response = conn.get("movie/#{movie_id}/reviews")
+    JSON.parse(response.body)
+  end
+
   private
 
   def self.conn

@@ -12,7 +12,8 @@ Rails.application.routes.draw do
       resources :users, only: [:create, :index]
       resources :sessions, only: :create
       get 'search/movie', to: 'movies#search'
-      resources :movies, only: [:create, :index, :show]
+      resources :movies, only: [:create, :index, :show] do
+      end
       resources :viewing_parties do
         resources :attendees, only: [:create]
       end
