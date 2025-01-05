@@ -12,6 +12,11 @@ class Api::V1::UsersController < ApplicationController
     render json: UserSerializer.format_user_list(User.all)
   end
 
+  def show
+    user_id = params[:id]
+    render json: UserSerializer.format_user_profile(user_id)
+  end
+
   private
 
   def user_params

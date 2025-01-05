@@ -87,4 +87,26 @@ RSpec.describe "Users API", type: :request do
       expect(json[:data][0][:attributes]).to_not have_key(:api_key)
     end
   end
+
+  describe "Get One User Endpoint" do
+    it "retrieves all user profile information but does not share any sensitive data" do
+      User.create!(id: 1, name: "Tom", username: "myspace_creator", password: "test123")
+      User.create!(id: 2, name: "Oprah", username: "oprah", password: "abcqwerty")
+      User.create!(id: 3, name: "Beyonce", username: "sasha_fierce", password: "blueivy")
+
+      user_id = 1
+
+      get "/api/v1/users/#{user_id}"
+     
+      expect(response).to be_successful
+      json = JSON.parse(response.body, symbolize_names: true)
+
+      # expect(json[:data].count).to eq(3)
+      # expect(json[:data][0][:attributes]).to have_key(:name)
+      # expect(json[:data][0][:attributes]).to have_key(:username)
+      # expect(json[:data][0][:attributes]).to_not have_key(:password)
+      # expect(json[:data][0][:attributes]).to_not have_key(:password_digest)
+      # expect(json[:data][0][:attributes]).to_not have_key(:api_key)
+    end
+  end
 end
